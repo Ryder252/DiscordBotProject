@@ -1,4 +1,5 @@
 import discord
 
 # Initialize the bot client
-client = discord.Client()
+#client = discord.Client()
+print("Hello world!")
