@@ -26,5 +26,9 @@ this is my second edit : this is izzy btw
 
 hey this is my edit from shane
 
+shane's message
+
+hey its elias 
+you all see this
 
 this is a cow
