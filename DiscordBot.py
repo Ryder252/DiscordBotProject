@@ -38,3 +38,5 @@ this is a BIGGER COW
 
 
 If this works then I am happy "izzy"
+#client = discord.Client()
+print("Hello world!")
