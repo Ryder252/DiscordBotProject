@@ -8,5 +8,3 @@ hello its me shane
 how are you
 hey shane
 help
-
-
