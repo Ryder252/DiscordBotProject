@@ -1,2 +1,2 @@
-MTIxMjg4MzExNjk3NzQzMDYxOQ.GFFJ4M.eVRTn27KhAH0XKh4xG6Te9s8OlycoSLfiSxq9Y
+token: "MTIxMjg4MzExNjk3NzQzMDYxOQ.GQdplC.KJLpiQPaf7UZLaYP_o56zM8TGaxhxCb8whNL-U"
 https://discord.com/oauth2/authorize?client_id=1212883116977430619&permissions=1084479765568&scope=bot
