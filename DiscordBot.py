@@ -1,7 +1,7 @@
 import discord
 
 def run_client():
-    TOKEN = 'MTIxMjg4MzExNjk3NzQzMDYxOQ.GPrYyg._uA2c_n7i2uN15IxaPyJQzrh_PJXbHtGF1Medg'
+    # TOKEN = 'MTIxMjg4MzExNjk3NzQzMDYxOQ.G217bZ.6IOBUOmMatxio-mcsJnzwoMfwYCDEF73kp5X2Q'
     client = discord.Client()
 
 @client.event
