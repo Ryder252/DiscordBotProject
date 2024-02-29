@@ -1,17 +1,6 @@
 import discord
+import bot
 
-def run_client():
-     #TOKEN = 'MTIxMjg4MzExNjk3NzQzMDYxOQ.GcO2sA.fyM3h-NG2N-SqEiolzAvg_h9gat-yFAuhos5M'o
-     client = discord.Client()
-
-@client.event
-
-async def on_ready():
-    print(f'{client.user} is now running.')
-
-
-print("Hello world!")
+if __name__ ==  '__DiscordBot__':
+    bot.run_client()      
 # Confirmed ideas: Quiz,
-
-while !isDone :
-     
