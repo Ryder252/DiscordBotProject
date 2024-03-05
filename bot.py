@@ -17,7 +17,7 @@ async def on_ready():
             break
     print(f'{client.user} is now connected to {guild.name}(ID: {guild.id})')
 
-bot = commands.Bot(command_prefix = '!')
+bot = commands.Bot(command_prefix = '!', intents=discord.Intents.default())
 
 @bot.command(name = 'quote')
 async def quotes(statement):
