@@ -20,6 +20,20 @@ bot = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 # Initialize score variable
 score = 0  
 
+# Command to display quiz instructions
+@bot.command(name='instructions')
+async def show_instructions(ctx):
+    instructions = (
+        "Welcome to the History Quiz Bot!\n\n"
+        "To start the quiz, use the command `!startquiz`.\n"
+        "You'll be presented with a series of questions related to history.\n"
+        "You must answer all the question correctly in order to pass the quiz!.\n"
+        "Each time you get a question wrong, the quiz ends.\n"
+        "The more questions answered the harder the quiz gets!\n\n"
+        "Enjoy the quiz and have fun!"
+    )
+    await ctx.send(instructions)
+
 async def fetch_questions(ctx):
     url = "https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple"
     try:
@@ -117,25 +131,13 @@ async def start_quiz(ctx):
         await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
         
 
-# Command to display quiz instructions
-@bot.command(name='instructions')
-async def show_instructions(ctx):
-    instructions = (
-        "Welcome to the History Quiz Bot!\n\n"
-        "To start the quiz, use the command `!startquiz`.\n"
-        "You'll be presented with a series of questions related to history.\n"
-        "You must answer all the question correctly in order to pass the quiz!.\n"
-        "Each time you get a question wrong, the quiz ends.\n"
-        "The more questions answered the harder the quiz gets!\n\n"
-        "Enjoy the quiz and have fun!"
-    )
-    await ctx.send(instructions)
+
 
 # Command to exit the bot
-@bot.command(name='exit')
+"""@bot.command(name='exit')
 async def exit_bot(ctx):
     await ctx.send("Goodbye! Thanks for playing the History Quiz Bot.")
-    await bot.close()    
+    await bot.close()    """
 
 
 bot.run(TOKEN)
