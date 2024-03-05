@@ -13,6 +13,6 @@ def run_client():
                return
            
           if message.content.startswith('$hello'):
-               await message.channel.send('Hello!') 
+               await message.channel.send('Hello!!') 
 
      client.run(TOKEN)
