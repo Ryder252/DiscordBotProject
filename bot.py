@@ -21,7 +21,7 @@ bot = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 score = 0  
 
 async def fetch_questions(ctx):
-    url = "https://opentdb.com/api.php?amount=10&category=23&difficulty=medium&type=multiple"
+    url = "https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple"
     try:
         response = requests.get(url)
         response.raise_for_status()
@@ -60,22 +60,24 @@ async def quotes(ctx):
 async def start_quiz(ctx):
     global score  # Access the global score variable
     score = 0  # Reset score when starting a new quiz
+
     await ctx.send("Welcome to the History Quiz Bot! Get ready to answer some history questions.")
 
     questions = await fetch_questions(ctx)
     if not questions:
         return
-
+    # Iterate through questions
     for question in questions:
         question_text = f'Question: {question["question"]}'
         options = [question["correct_answer"]] + question["incorrect_answers"]
         random.shuffle(options)
         question_text += "\nOptions:\n" + "\n".join([f"{i}. {option}" for i, option in enumerate(options, start=1)])
         await ctx.send(question_text)
+
         user_choice = None
         while user_choice is None:
             try:
-                user_choice = await bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content.isdigit(), timeout=30)
+                user_choice = await bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content.isdigit(), timeout=60)
                 user_choice = int(user_choice.content)
                 if user_choice < 1 or user_choice > len(options):
                     await ctx.send(f"Invalid input. Please enter a number between 1 and {len(options)}")
@@ -86,20 +88,20 @@ async def start_quiz(ctx):
             except ValueError:
                 await ctx.send("Invalid input. Please enter a number.")
                 user_choice = None
-
-        if options[user_choice - 1] == question["correct_answer"]:
-            score += 1
-            await ctx.send("Correct answer!")
-        else:
+               
+        # Check for incorrect answer and break the loop if incorrect
+        if options[user_choice - 1] != question["correct_answer"]: 
             await ctx.send(f"Incorrect. The correct answer is: {question['correct_answer']}")
             break
+
+        score +=1 # Increment score only if answer is correct
 
     await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
     
 
 
     # Shuffle the questions to randomize their order
-    random.shuffle(questions)
+   ## random.shuffle(questions)
 
     for question_data in questions:
         question_text = f'Question: {question_data["question"]}'
