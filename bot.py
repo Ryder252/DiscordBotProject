@@ -104,12 +104,14 @@ async def start_quiz(ctx):
                 user_choice = None
                
         # Check for incorrect answer and break the loop if incorrect
-        if options[user_choice - 1] != question["correct_answer"]: 
+        if options[user_choice - 1] == question["correct_answer"]:
+            score += 1 # Increment score only if answer is correct
+            await ctx.send("Correct answer!")
+        else:
             await ctx.send(f"Incorrect. The correct answer is: {question['correct_answer']}")
             break
 
-        score +=1 # Increment score only if answer is correct
-
+         
     await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
     
 
