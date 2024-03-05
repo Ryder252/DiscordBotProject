@@ -1,6 +1,7 @@
 import discord
 import os
 import random
+from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,19 +17,17 @@ async def on_ready():
             break
     print(f'{client.user} is now connected to {guild.name}(ID: {guild.id})')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    
+bot = commands.Bot(command_prefix = '!')
+
+@bot.command(name = 'quote')
+async def quotes(statement):
     dialogues = [
         'Imagine a meeting between pre-Nazi Hitler and Bob Ross.',
         'I wonder how the Revolutionary War would play out with the militaries of modern America and Great Britain.',
         'Would hippies have existed as we know them today if America never went to Vietnam?'
     ]    
-    if message.content == 'quote':
-        response = random.choice(dialogues)
-        await message.channel.send(response)    
+    response = random.choice(dialogues)
+    await statement.send(response)    
 
 client.run(TOKEN)
 
