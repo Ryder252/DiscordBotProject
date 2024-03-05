@@ -8,6 +8,8 @@ if __name__ ==  '__DiscordBot__':
 client = discord.Client()
 print("Hello world!")
 # Confirmed ideas: Quiz, 
+
+
 # Key features: 
 # Menu: 1. Instruction and functions, 
 ##
