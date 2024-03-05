@@ -26,7 +26,7 @@ async def on_message(message):
         'I wonder how the Revolutionary War would play out with the militaries of modern America and Great Britain.',
         'Would hippies have existed as we know them today if America never went to Vietnam?'
     ]    
-    if message.content == '!quote':
+    if message.content == 'quote':
         response = random.choice(dialogues)
         await message.channel.send(response)    
 
