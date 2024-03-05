@@ -1,8 +1,10 @@
 import discord
 import os
 import random
+import requests
 from discord.ext import commands
 from dotenv import load_dotenv
+import asyncio
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,17 +20,25 @@ bot = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 # Initialize score variable
 score = 0  
 
-#bot = commands.Bot(command_prefix='!')
-#client = discord.Client(intents=discord.Intents.default())
+async def fetch_questions(ctx):
+    url = "https://opentdb.com/api.php?amount=10&category=23&difficulty=medium&type=multiple"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        if "results" in data:
+            questions = data["results"]
+            return questions
+    except Exception as e:
+        await ctx.send(f"Failed to fetch questions: {e}")
+        return None
+
 
 #@client.event
 @bot.event
 async def on_ready():
     print(f'{bot.user} is now connected to Discord.')
-    '''for guild in client.guilds:
-        if guild.name == GUILD:
-            break
-    print(f'{client.user} is now connected to {guild.name}(ID: {guild.id})') '''
+
 
 bot = commands.Bot(command_prefix = '!', intents=discord.Intents.all())
 
@@ -51,19 +61,42 @@ async def start_quiz(ctx):
     global score  # Access the global score variable
     score = 0  # Reset score when starting a new quiz
     await ctx.send("Welcome to the History Quiz Bot! Get ready to answer some history questions.")
-    await ctx.send("Type '!answer' followed by your answer to each question.")
 
-    questions = [
-        {
-            "question": "Who was the first president of the United States?",
-            "correct_answer": "George Washington"
-        },
-        {
-            "question": "In which year did World War II end?",
-            "correct_answer": "1945"
-        }
-        # Add more questions here...
-    ] 
+    questions = await fetch_questions(ctx)
+    if not questions:
+        return
+
+    for question in questions:
+        question_text = f'Question: {question["question"]}'
+        options = [question["correct_answer"]] + question["incorrect_answers"]
+        random.shuffle(options)
+        question_text += "\nOptions:\n" + "\n".join([f"{i}. {option}" for i, option in enumerate(options, start=1)])
+        await ctx.send(question_text)
+        user_choice = None
+        while user_choice is None:
+            try:
+                user_choice = await bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content.isdigit(), timeout=30)
+                user_choice = int(user_choice.content)
+                if user_choice < 1 or user_choice > len(options):
+                    await ctx.send(f"Invalid input. Please enter a number between 1 and {len(options)}")
+                    user_choice = None
+            except asyncio.TimeoutError:
+                await ctx.send("Time's up! Quiz aborted.")
+                return
+            except ValueError:
+                await ctx.send("Invalid input. Please enter a number.")
+                user_choice = None
+
+        if options[user_choice - 1] == question["correct_answer"]:
+            score += 1
+            await ctx.send("Correct answer!")
+        else:
+            await ctx.send(f"Incorrect. The correct answer is: {question['correct_answer']}")
+            break
+
+    await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
+
+   
 
     # Shuffle the questions to randomize their order
     random.shuffle(questions)
@@ -102,25 +135,9 @@ async def exit_bot(ctx):
     await bot.close()    
 
 
+@bot.command(name='shutdown')
+async def shutdown_bot(ctx):
+    await ctx.send("Shutting down the bot...")
+    await bot.close()
+
 bot.run(TOKEN)
-
-# Key features: 
-# Menu: 1. Instruction and functions, 
-
-"""
-def run_client():
-     #TOKEN = 'MTIxMjg4MzExNjk3NzQzMDYxOQ.GcO2sA.fyM3h-NG2N-SqEiolzAvg_h9gat-yFAuhos5M'o
-     client = discord.Client()
-
-     @client.event
-     async def on_ready():
-         print(f'{client.user} is now running.')
-
-     async def on_message(message):
-          if message.author == client.user:
-               return
-           
-          if message.content.startswith('$hello'):
-               await message.channel.send('Hello!!') 
-
-     client.run(TOKEN) """
