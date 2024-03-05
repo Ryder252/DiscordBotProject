@@ -4,7 +4,9 @@ import random
 from discord.ext import commands
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
+# Get Discord token and guild from environment variables
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
@@ -13,7 +15,8 @@ intents = discord.Intents.default()
 # Initialize the bot with intents
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-score = 0  # Initialize score variable
+# Initialize score variable
+score = 0  
 
 #bot = commands.Bot(command_prefix='!')
 #client = discord.Client(intents=discord.Intents.default())
@@ -29,6 +32,7 @@ async def on_ready():
 
 bot = commands.Bot(command_prefix = '!', intents=discord.Intents.default())
 
+# Command to generate random quotes
 @bot.command(name = 'quote')
 #async def quotes(statement):
 async def quotes(ctx):
@@ -41,6 +45,7 @@ async def quotes(ctx):
     await ctx.send(response)
    #await statement.send(response)    
 
+# Command to start the quiz
 @bot.command(name='startquiz')
 async def start_quiz(ctx):
     global score  # Access the global score variable
@@ -70,11 +75,13 @@ async def start_quiz(ctx):
         if answer.content.lower() == question_data["correct_answer"].lower():
             score += 1  # Increment score if the answer is correct
         else:
+             # Notify user of incorrect answer and show the correct answer
             await ctx.send(f"Sorry, that's inncorrect. The correct answer is: {question_data['correct_answer']}")
+            break  # End the quiz if the answer is incorrect
 
         await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
 
-
+# Command to display quiz instructions
 @bot.command(name='instructions')
 async def show_instructions(ctx):
     instructions = (
@@ -88,6 +95,7 @@ async def show_instructions(ctx):
     )
     await ctx.send(instructions)
 
+# Command to exit the bot
 @bot.command(name='exit')
 async def exit_bot(ctx):
     await ctx.send("Goodbye! Thanks for playing the History Quiz Bot.")
