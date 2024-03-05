@@ -94,10 +94,9 @@ async def start_quiz(ctx):
             await ctx.send(f"Incorrect. The correct answer is: {question['correct_answer']}")
             break
 
-        await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
-        break
+    await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
+    
 
-   
 
     # Shuffle the questions to randomize their order
     random.shuffle(questions)
@@ -136,10 +135,5 @@ async def exit_bot(ctx):
     await ctx.send("Goodbye! Thanks for playing the History Quiz Bot.")
     await bot.close()    
 
-'''
-@bot.command(name='shutdown')
-async def shutdown_bot(ctx):
-    await ctx.send("Shutting down the bot...")
-    await bot.close() '''
 
 bot.run(TOKEN)
