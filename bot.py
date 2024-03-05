@@ -13,7 +13,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 # Define intents
 intents = discord.Intents.default()
 # Initialize the bot with intents
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix='!', intents=intents.all)
 
 # Initialize score variable
 score = 0  
