@@ -30,7 +30,7 @@ async def on_ready():
             break
     print(f'{client.user} is now connected to {guild.name}(ID: {guild.id})') '''
 
-bot = commands.Bot(command_prefix = '!', intents=discord.Intents.default())
+bot = commands.Bot(command_prefix = '!', intents=discord.Intents.all())
 
 # Command to generate random quotes
 @bot.command(name = 'quote')
