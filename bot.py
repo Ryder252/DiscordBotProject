@@ -8,7 +8,14 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-bot = commands.Bot(command_prefix='!')
+# Define intents
+intents = discord.Intents.default()
+
+# Initialize the bot with intents
+bot = commands.Bot(command_prefix='!', intents=intents)
+
+
+#bot = commands.Bot(command_prefix='!')
 
 #client = discord.Client(intents=discord.Intents.default())
 
