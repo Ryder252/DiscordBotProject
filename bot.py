@@ -94,7 +94,8 @@ async def start_quiz(ctx):
             await ctx.send(f"Incorrect. The correct answer is: {question['correct_answer']}")
             break
 
-    await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
+        await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
+        break
 
    
 
@@ -113,6 +114,7 @@ async def start_quiz(ctx):
             break  # End the quiz if the answer is incorrect
 
         await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
+        
 
 # Command to display quiz instructions
 @bot.command(name='instructions')
@@ -134,10 +136,10 @@ async def exit_bot(ctx):
     await ctx.send("Goodbye! Thanks for playing the History Quiz Bot.")
     await bot.close()    
 
-
+'''
 @bot.command(name='shutdown')
 async def shutdown_bot(ctx):
     await ctx.send("Shutting down the bot...")
-    await bot.close()
+    await bot.close() '''
 
 bot.run(TOKEN)
