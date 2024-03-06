@@ -2,9 +2,11 @@ import discord
 import os
 import random
 import requests
+import asyncio
+import datetime
 from discord.ext import commands
 from dotenv import load_dotenv
-import asyncio
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -47,27 +49,49 @@ async def fetch_questions(ctx):
         await ctx.send(f"Failed to fetch questions: {e}")
         return None
 
-
-#@client.event
 @bot.event
 async def on_ready():
     print(f'{bot.user} is now connected to Discord.')
-
+    bot.start_time = datetime.datetime.utcnow()
 
 bot = commands.Bot(command_prefix = '!', intents=discord.Intents.all())
 
-# Command to generate random quotes
+# Command to display bot uptime
+@bot.command(name = 'uptime')
+async def uptime(ctx):
+    current = datetime.datetime.utcnow()
+    duration = current - bot.start_time
+    days, hours, minutes, seconds = map(int, divmod(duration.total_seconds(), 86400)), map(int, divmod(duration.total_seconds() % 86400, 3600)), map(int, divmod(duration.total_seconds() % 3600, 60)), map(int, divmod(duration.total_seconds(), 1))
+    uptime_string = ""
+    if days[0] > 0:
+        uptime_string += f"{days[0]} days, "
+    if hours[0] > 0:
+        uptime_string += f"{hours[0]} hours, "
+    if minutes[0] > 0:
+        uptime_string += f"{minutes[0]} minutes, "
+    uptime_string += f"and {seconds[0]} seconds."
+    await ctx.send(f'History Quiz Bot has been up for {uptime_string}')
+
+# Command to display list of current users    
+@bot.command(name = 'userlist')
+async def user_list(ctx):
+    guild = ctx.guild
+    member_list = guild.members
+    usernames = [member.name for member in member_list]
+    await ctx.send(f'Current listing of users:\n{", ".join(usernames)}')
+    
+# Command to generate random historical quotes
 @bot.command(name = 'quote')
-#async def quotes(statement):
 async def quotes(ctx):
     dialogues = [
-        'Imagine a meeting between pre-Nazi Hitler and Bob Ross.',
-        'I wonder how the Revolutionary War would play out with the militaries of modern America and Great Britain.',
-        'Would hippies have existed as we know them today if America never went to Vietnam?'
+        '\"A house divided against itself cannot stand.\"\n\t~ Abraham Lincoln',
+        '\"I am opposed to any form of tyranny over the mind of man.\"\n\t~ Thomas Jefferson',
+        '\"We hold these truths to be self-evident: that all men and women are created equal.\"\n\t~ Elizabeth Cady Stanton',
+        '\"My fellow Americans, ask not what your country can do for you, ask what you can do for your country.\"\n\t~ John F. Kennedy',
+        '\"I have a dream that one day this nation will rise up and live out the true meaning of its creed; We hold these truths to be self-evident: that all men are created equal\"\n\t~ Martin Luther King, Jr.'
     ]    
     response = random.choice(dialogues)
-    await ctx.send(response)
-   #await statement.send(response)    
+    await ctx.send(response)   
 
 # Command to start the quiz
 @bot.command(name='startquiz')
@@ -114,10 +138,8 @@ async def start_quiz(ctx):
          
     await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
     
-
-
     # Shuffle the questions to randomize their order
-   ## random.shuffle(questions)
+    ## random.shuffle(questions)
 
     for question_data in questions:
         question_text = f'Question: {question_data["question"]}'
@@ -127,7 +149,7 @@ async def start_quiz(ctx):
             score += 1  # Increment score if the answer is correct
         else:
              # Notify user of incorrect answer and show the correct answer
-            await ctx.send(f"Sorry, that's inncorrect. The correct answer is: {question_data['correct_answer']}")
+            await ctx.send(f"Sorry, that's incorrect. The correct answer is: {question_data['correct_answer']}")
             break  # End the quiz if the answer is incorrect
 
         await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
@@ -140,6 +162,5 @@ async def start_quiz(ctx):
 async def exit_bot(ctx):
     await ctx.send("Goodbye! Thanks for playing the History Quiz Bot.")
     await bot.close()    """
-
 
 bot.run(TOKEN)
