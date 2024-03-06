@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
 # Get Discord token and guild from environment variables
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
@@ -20,6 +21,40 @@ intents = discord.Intents.default()
 bot = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 start_time = datetime.datetime.utcnow()
 
+# Display message upon successful connection to Discord
+@bot.event
+async def on_ready():
+    print(f'Huzzah! {bot.user} is now connected to Discord.')
+
+# Display bot uptime
+@bot.command(name = 'uptime')
+async def uptime(ctx):
+    delta_uptime = datetime.datetime.utcnow() - start_time
+    hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
+    minutes, seconds = divmod(remainder, 60)
+    days, hours = divmod(hours, 24)
+    await ctx.send(f"History Quiz Bot has been up for {days} days, {hours} hours, {minutes} minutes, and {seconds} seconds.")
+
+# Display list of current users    
+@bot.command(name = 'userlist')
+async def user_list(ctx):
+    guild = ctx.guild
+    member_list = guild.members
+    usernames = [member.name for member in member_list]
+    await ctx.send(f'Current listing of users:\n------------------------\n{"\n".join(usernames)}')
+    
+# Command to generate random historical quotes
+@bot.command(name = 'quote')
+async def quotes(ctx):
+    dialogues = [
+        '\"A house divided against itself cannot stand.\"\n\t~ Abraham Lincoln',
+        '\"I am opposed to any form of tyranny over the mind of man.\"\n\t~ Thomas Jefferson',
+        '\"We hold these truths to be self-evident: that all men and women are created equal.\"\n\t~ Elizabeth Cady Stanton',
+        '\"My fellow Americans, ask not what your country can do for you, ask what you can do for your country.\"\n\t~ John F. Kennedy',
+        '\"I have a dream that one day this nation will rise up and live out the true meaning of its creed; We hold these truths to be self-evident: that all men are created equal.\"\n\t~ Martin Luther King, Jr.'
+    ]    
+    response = random.choice(dialogues)
+    await ctx.send(response)   
 
 # Initialize score variable
 score = 0  
@@ -50,42 +85,6 @@ async def fetch_questions(ctx):
     except Exception as e:
         await ctx.send(f"Failed to fetch questions: {e}")
         return None
-
-@bot.event
-async def on_ready():
-    print(f'Huzzah! {bot.user} is now connected to Discord.')
-
-bot = commands.Bot(command_prefix = '!', intents=discord.Intents.all())
-
-# Command to display bot uptime
-@bot.command(name = 'uptime')
-async def uptime(ctx):
-    delta_uptime = datetime.datetime.utcnow() - start_time
-    hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
-    minutes, seconds = divmod(remainder, 60)
-    days, hours = divmod(hours, 24)
-    await ctx.send(f"History Quiz Bot has been up for {days} days, {hours} hours, {minutes} minutes, and {seconds} seconds.")
-
-# Command to display list of current users    
-@bot.command(name = 'userlist')
-async def user_list(ctx):
-    guild = ctx.guild
-    member_list = guild.members
-    usernames = [member.name for member in member_list]
-    await ctx.send(f'Current listing of users:\n------------------------\n{"\n".join(usernames)}')
-    
-# Command to generate random historical quotes
-@bot.command(name = 'quote')
-async def quotes(ctx):
-    dialogues = [
-        '\"A house divided against itself cannot stand.\"\n\t~ Abraham Lincoln',
-        '\"I am opposed to any form of tyranny over the mind of man.\"\n\t~ Thomas Jefferson',
-        '\"We hold these truths to be self-evident: that all men and women are created equal.\"\n\t~ Elizabeth Cady Stanton',
-        '\"My fellow Americans, ask not what your country can do for you, ask what you can do for your country.\"\n\t~ John F. Kennedy',
-        '\"I have a dream that one day this nation will rise up and live out the true meaning of its creed; We hold these truths to be self-evident: that all men are created equal.\"\n\t~ Martin Luther King, Jr.'
-    ]    
-    response = random.choice(dialogues)
-    await ctx.send(response)   
 
 # Command to start the quiz
 @bot.command(name='startquiz')
