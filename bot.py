@@ -18,6 +18,8 @@ GUILD = os.getenv('DISCORD_GUILD')
 intents = discord.Intents.default()
 # Initialize the bot with intents
 bot = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
+start_time = datetime.datetime.utcnow()
+
 
 # Initialize score variable
 score = 0  
@@ -52,25 +54,17 @@ async def fetch_questions(ctx):
 @bot.event
 async def on_ready():
     print(f'{bot.user} is now connected to Discord.')
-    bot.start = datetime.datetime.utcnow()
 
 bot = commands.Bot(command_prefix = '!', intents=discord.Intents.all())
 
 # Command to display bot uptime
 @bot.command(name = 'uptime')
 async def uptime(ctx):
-    current = datetime.datetime.utcnow()
-    duration = current - bot.start
-    days, hours, minutes, seconds = map(int, divmod(duration.total_seconds(), 86400)), map(int, divmod(duration.total_seconds() % 86400, 3600)), map(int, divmod(duration.total_seconds() % 3600, 60)), map(int, divmod(duration.total_seconds(), 1))
-    uptime_string = ""
-    if days[0] > 0:
-        uptime_string += f"{days[0]} days, "
-    if hours[0] > 0:
-        uptime_string += f"{hours[0]} hours, "
-    if minutes[0] > 0:
-        uptime_string += f"{minutes[0]} minutes, "
-    uptime_string += f"and {seconds[0]} seconds."
-    await ctx.send(f'History Quiz Bot has been up for {uptime_string}')
+    delta_uptime = datetime.datetime.utcnow() - start_time
+    hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
+    minutes, seconds = divmod(remainder, 60)
+    days, hours = divmod(hours, 24)
+    await ctx.send(f"{days}d, {hours}h, {minutes}m")
 
 # Command to display list of current users    
 @bot.command(name = 'userlist')
