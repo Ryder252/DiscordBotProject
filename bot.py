@@ -1,7 +1,7 @@
 import discord
 import os
 import random
-import requests
+#import requests
 import asyncio
 import datetime
 from discord.ext import commands
@@ -52,7 +52,7 @@ async def fetch_questions(ctx):
 @bot.event
 async def on_ready():
     print(f'{bot.user} is now connected to Discord.')
-    bot.start_time = datetime.datetime.utcnow()
+    bot.start = datetime.datetime.utcnow()
 
 bot = commands.Bot(command_prefix = '!', intents=discord.Intents.all())
 
@@ -60,7 +60,7 @@ bot = commands.Bot(command_prefix = '!', intents=discord.Intents.all())
 @bot.command(name = 'uptime')
 async def uptime(ctx):
     current = datetime.datetime.utcnow()
-    duration = current - bot.start_time
+    duration = current - bot.start
     days, hours, minutes, seconds = map(int, divmod(duration.total_seconds(), 86400)), map(int, divmod(duration.total_seconds() % 86400, 3600)), map(int, divmod(duration.total_seconds() % 3600, 60)), map(int, divmod(duration.total_seconds(), 1))
     uptime_string = ""
     if days[0] > 0:
