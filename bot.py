@@ -82,7 +82,7 @@ async def quotes(ctx):
         '\"I am opposed to any form of tyranny over the mind of man.\"\n\t~ Thomas Jefferson',
         '\"We hold these truths to be self-evident: that all men and women are created equal.\"\n\t~ Elizabeth Cady Stanton',
         '\"My fellow Americans, ask not what your country can do for you, ask what you can do for your country.\"\n\t~ John F. Kennedy',
-        '\"I have a dream that one day this nation will rise up and live out the true meaning of its creed; We hold these truths to be self-evident: that all men are created equal\"\n\t~ Martin Luther King, Jr.'
+        '\"I have a dream that one day this nation will rise up and live out the true meaning of its creed; We hold these truths to be self-evident: that all men are created equal.\"\n\t~ Martin Luther King, Jr.'
     ]    
     response = random.choice(dialogues)
     await ctx.send(response)   
