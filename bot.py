@@ -53,7 +53,7 @@ async def fetch_questions(ctx):
 
 @bot.event
 async def on_ready():
-    print(f'{bot.user} is now connected to Discord.')
+    print(f'Huzzah! {bot.user} is now connected to Discord.')
 
 bot = commands.Bot(command_prefix = '!', intents=discord.Intents.all())
 
