@@ -41,7 +41,7 @@ async def user_list(ctx):
     guild = ctx.guild
     member_list = guild.members
     usernames = [member.name for member in member_list]
-    await ctx.send(f'Current listing of users:\n------------------------\n{"\n".join(usernames)}')
+    await ctx.send(f'Current listing of users:\n-----------------------------\n{"\n".join(usernames)}')
     
 # Command to generate random historical quotes
 @bot.command(name = 'quote')
@@ -148,9 +148,9 @@ async def start_quiz(ctx):
         await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
  
 # Command to exit the bot
-"""@bot.command(name='exit')
+@bot.command(name='exit')
 async def exit_bot(ctx):
     await ctx.send("Goodbye! Thanks for playing the History Quiz Bot.")
-    await bot.close()    """
+    await bot.close()
 
 bot.run(TOKEN)
