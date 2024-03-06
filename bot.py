@@ -1,7 +1,7 @@
 import discord
 import os
 import random
-#import requests
+import requests
 import asyncio
 import datetime
 from discord.ext import commands
