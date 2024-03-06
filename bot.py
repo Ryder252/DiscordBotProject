@@ -64,7 +64,7 @@ async def uptime(ctx):
     hours, remainder = divmod(int(delta_uptime.total_seconds()), 3600)
     minutes, seconds = divmod(remainder, 60)
     days, hours = divmod(hours, 24)
-    await ctx.send(f"{days}d, {hours}h, {minutes}m, {seconds}s")
+    await ctx.send(f"History Quiz Bot has been up for {days} days, {hours} hours, {minutes} minutes, and {seconds} seconds.")
 
 # Command to display list of current users    
 @bot.command(name = 'userlist')
@@ -72,7 +72,7 @@ async def user_list(ctx):
     guild = ctx.guild
     member_list = guild.members
     usernames = [member.name for member in member_list]
-    await ctx.send(f'Current listing of users:\n{", ".join(usernames)}')
+    await ctx.send(f'Current listing of users:\n------------------------\n{"\n".join(usernames)}')
     
 # Command to generate random historical quotes
 @bot.command(name = 'quote')
@@ -147,10 +147,7 @@ async def start_quiz(ctx):
             break  # End the quiz if the answer is incorrect
 
         await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
-        
-
-
-
+ 
 # Command to exit the bot
 """@bot.command(name='exit')
 async def exit_bot(ctx):
