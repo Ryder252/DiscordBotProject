@@ -126,6 +126,7 @@ async def start_quiz(ctx):
         if options[user_choice - 1] == question["correct_answer"]:
             score += 1 # Increment score only if answer is correct
             await ctx.send("Correct answer!")
+            #break
         else:
             await ctx.send(f"Incorrect. The correct answer is: {question['correct_answer']}")
             break
