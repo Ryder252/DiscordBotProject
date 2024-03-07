@@ -1,11 +1,11 @@
 import discord
 import os
+from dotenv import load_dotenv
 import random
 import requests
 import asyncio
 import datetime
 from discord.ext import commands
-from dotenv import load_dotenv
 
 
 # Load environment variables from .env file
