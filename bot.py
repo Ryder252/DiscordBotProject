@@ -63,12 +63,14 @@ score = 0
 @bot.command(name='instructions')
 async def show_instructions(ctx):
     instructions = (
-        "Welcome to the History Quiz Bot!\n\n"
+        "Welcome to the World History Quiz and Quote Bot!\n\n"
+        "To call on a quote, use the command '!quote'\n"
         "To start the quiz, use the command `!startquiz`.\n"
+        "To exit from the bot, use the command '!exit'\n"
         "You'll be presented with a series of questions related to history.\n"
         "You must answer all the question correctly in order to pass the quiz!.\n"
+        "You have 60 seconds to answer a question before the timer runs out.\n"
         "Each time you get a question wrong, the quiz ends.\n"
-        "The more questions answered the harder the quiz gets!\n\n"
         "Enjoy the quiz and have fun!"
     )
     await ctx.send(instructions)
