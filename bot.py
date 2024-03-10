@@ -137,6 +137,19 @@ async def start_quiz(ctx):
         
     # Shuffle the questions to randomize their order
     ## random.shuffle(questions)
+
+    """for question_data in questions:
+        question_text = f'Question: {question_data["question"]}'
+        await ctx.send(question_text)
+        answer = await bot.wait_for('message', check=lambda message: message.author == ctx.author)
+        if answer.content.lower() == question_data["correct_answer"].lower():
+            score += 1  # Increment score if the answer is correct
+        else:
+             # Notify user of incorrect answer and show the correct answer
+            await ctx.send(f"Sorry, that's incorrect. The correct answer is: {question_data['correct_answer']}")
+            break  # End the quiz if the answer is incorrect
+
+        await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")"""
  
 # Command to exit the bot
 @bot.command(name='exit')
