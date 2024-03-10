@@ -99,6 +99,7 @@ async def start_quiz(ctx):
     questions = await fetch_questions(ctx)
     if not questions:
         return
+    
     # Iterate through questions
     for question in questions:
         question_text = f'Question: {question["question"]}'
@@ -110,6 +111,7 @@ async def start_quiz(ctx):
         user_choice = None
         while user_choice is None:
             try:
+                # Wait for user input
                 user_choice = await bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content.isdigit(), timeout=60)
                 user_choice = int(user_choice.content)
                 if user_choice < 1 or user_choice > len(options):
@@ -122,33 +124,19 @@ async def start_quiz(ctx):
                 await ctx.send("Invalid input. Please enter a number.")
                 user_choice = None
                
-        # Check for incorrect answer and break the loop if incorrect
+        # Check for correct answer
         if options[user_choice - 1] == question["correct_answer"]:
             score += 1 # Increment score only if answer is correct
             await ctx.send("Correct answer!")
-            #break
         else:
             await ctx.send(f"Incorrect. The correct answer is: {question['correct_answer']}")
-            break
+            break  # Exit loop if answer is incorrect
 
-         
+    # Display final score
     await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
-    
+        
     # Shuffle the questions to randomize their order
     ## random.shuffle(questions)
-
-    for question_data in questions:
-        question_text = f'Question: {question_data["question"]}'
-        await ctx.send(question_text)
-        answer = await bot.wait_for('message', check=lambda message: message.author == ctx.author)
-        if answer.content.lower() == question_data["correct_answer"].lower():
-            score += 1  # Increment score if the answer is correct
-        else:
-             # Notify user of incorrect answer and show the correct answer
-            await ctx.send(f"Sorry, that's incorrect. The correct answer is: {question_data['correct_answer']}")
-            break  # End the quiz if the answer is incorrect
-
-        await ctx.send(f"Quiz over! Your score: {score} out of {len(questions)}.")
  
 # Command to exit the bot
 @bot.command(name='exit')
